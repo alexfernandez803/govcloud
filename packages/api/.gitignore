@@ -1,0 +1,26 @@
+# Logs
+logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+
+# IDE files
+.vscode/
+.idea/
+
+# Testing artifacts
+coverage/
+
+# Compiled binary addons
+build/Release/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
