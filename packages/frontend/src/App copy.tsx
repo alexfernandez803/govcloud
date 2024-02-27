@@ -5,7 +5,6 @@ import { DataTable } from "./components/data-table";
 import { UserNav } from "./components/user-nav";
 import { taskSchema } from "./data/schema";
 import data from "./data/tasks.json";
-import DataEditor from "./components/DataEditor";
 // Simulate a database read for tasks.
 function getTasks() {
   const tasks = data;
@@ -29,7 +28,7 @@ export default function TaskPage() {
             <UserNav />
           </div>
         </div>
-        <DataEditor />
+        <DataTable data={tasks} columns={columns} />
       </div>
     </>
   );
