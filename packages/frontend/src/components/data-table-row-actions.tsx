@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/registry/new-york/ui/dropdown-menu";
 
-import { labels } from "../data/data";
+import { labels } from "./DataEditor/Datatable/data";
 import { taskSchema } from "../data/schema";
 
 interface DataTableRowActionsProps<TData> {

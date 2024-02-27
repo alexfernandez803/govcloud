@@ -7,7 +7,7 @@ import { Button } from "@/registry/new-york/ui/button";
 import { Input } from "@/registry/new-york/ui/input";
 import { DataTableViewOptions } from "@/components/data-table-view-options";
 
-import { priorities, statuses } from "../data/data";
+import { priorities, statuses } from "./DataEditor/Datatable/data";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 interface DataTableToolbarProps<TData> {
