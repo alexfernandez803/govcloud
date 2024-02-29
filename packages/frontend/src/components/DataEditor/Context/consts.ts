@@ -5,4 +5,5 @@ export const initialData: any[] = [];
 export const initialInterfaceState = {
   filter: "",
   setFilter: () => {},
+  isAddOpen: false,
 };

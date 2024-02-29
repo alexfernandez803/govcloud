@@ -13,12 +13,13 @@ export type InterfaceStateType = {
   columnFilters?: ColumnFiltersState;
   sorting?: SortingState;
   rowSelection?: RowSelectionState;
+  isAddOpen: boolean;
 };
 
 export type DataEditorType = {
   interfaceState: InterfaceStateType;
   apiData: any[];
-  isFetchingNewData: boolean;
+  isLoading: boolean;
 };
 export type DataEditorContextProps = {
   dataEditor: DataEditorType;
@@ -46,18 +47,35 @@ export const useDataEditor = () => {
   const { dataEditor, setDataEditor } = context;
 
   function fetchData() {
-    setDataEditor((prev) => ({ ...prev, isFetchingNewData: true }));
-    fetch("https://jsonplaceholder.typicode.com/users").then((response) => {
+    setDataEditor((prev) => ({
+      ...prev,
+      isFetchingNewData: true,
+      isLoading: true,
+    }));
+
+    const PUBLIC_REST_API = import.meta.env.VITE_PUBLIC_REST_API;
+
+    fetch(`${PUBLIC_REST_API}/user`).then((response) => {
       response.json().then((data) => {
         setDataEditor((prev) => ({
           ...prev,
-          apiData: data,
+          apiData: data.items,
           isFetchingNewData: false,
+          isLoading: false,
         }));
       });
     });
   }
 
+  const toggleAdd = () => {
+    setDataEditor((prev) => ({
+      ...prev,
+      interfaceState: {
+        ...prev.interfaceState,
+        isAddOpen: !prev.interfaceState.isAddOpen,
+      },
+    }));
+  };
   return {
     dataEditor,
     setDataEditor,
@@ -70,6 +88,8 @@ export const useDataEditor = () => {
     setColumnVisibility,
     columnFilters,
     setColumnFilters,
+
+    toggleAdd,
   };
 };
 
@@ -79,7 +99,7 @@ const DataEditorProvider: React.FC<{
   const initialState = {
     interfaceState: initialInterfaceState,
     apiData: initialData,
-    isFetchingNewData: false,
+    isLoading: false,
   };
   const [dataEditor, setDataEditor] = useState<DataEditorType>(initialState);
   return (
