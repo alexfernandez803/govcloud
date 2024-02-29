@@ -46,9 +46,6 @@ export class UserService {
     sort?: Sorting,
     filter?: Filtering,
   ) {
-    console.log('filter', filter);
-    console.log('offset', offset);
-
     const where = getWhere(filter);
     const order = getOrder(sort);
 

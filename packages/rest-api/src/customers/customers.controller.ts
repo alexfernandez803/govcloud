@@ -10,6 +10,9 @@ import {
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { FilteringParams, Filtering } from 'src/decorators/filtering-params';
+import { PaginationParams, Pagination } from 'src/decorators/pagination-params';
+import { SortingParams, Sorting } from 'src/decorators/sorting-params';
 
 @Controller('customers')
 export class CustomersController {
@@ -21,13 +24,17 @@ export class CustomersController {
   }
 
   @Get()
-  findAll() {
-    return this.customersService.findAll();
+  findAll(
+    @PaginationParams() paginationParams?: Pagination,
+    @SortingParams(['firstName', 'lastName']) sort?: Sorting,
+    @FilteringParams(['firstName', 'id', 'firstName']) filter?: Filtering,
+  ) {
+    return this.customersService.findAll(paginationParams, sort, filter);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.customersService.findOne(+id);
+    return this.customersService.findOne(id);
   }
 
   @Patch(':id')
@@ -40,6 +47,6 @@ export class CustomersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.customersService.remove(+id);
+    return this.customersService.remove(id);
   }
 }

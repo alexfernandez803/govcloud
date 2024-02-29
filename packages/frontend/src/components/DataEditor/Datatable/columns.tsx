@@ -1,22 +1,18 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { User } from "./types";
+import { CustomerType, User } from "./types";
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<CustomerType>[] = [
   {
-    header: "Name",
-    accessorKey: "name",
+    header: "Id",
+    accessorKey: "id",
   },
   {
-    header: "Username",
-    accessorKey: "username",
+    header: "First Name",
+    accessorKey: "firstName",
   },
   {
-    header: "Email",
-    accessorKey: "email",
-  },
-  {
-    header: "Age",
-    accessorKey: "age",
+    header: "Last Name",
+    accessorKey: "lastName",
   },
   {
     header: "Created At",

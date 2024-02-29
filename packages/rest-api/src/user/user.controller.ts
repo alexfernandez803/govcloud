@@ -20,7 +20,7 @@ import { SortingParams, Sorting } from 'src/decorators/sorting-params';
  * passed in controller decorator.
  * in our case our base URL is http://localhost:3000/user
  */
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

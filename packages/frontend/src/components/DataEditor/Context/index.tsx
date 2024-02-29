@@ -6,6 +6,7 @@ import {
   SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
+import { CustomerType } from "./types";
 
 export type InterfaceStateType = {
   filter: string;
@@ -55,7 +56,7 @@ export const useDataEditor = () => {
 
     const PUBLIC_REST_API = import.meta.env.VITE_PUBLIC_REST_API;
 
-    fetch(`${PUBLIC_REST_API}/user`).then((response) => {
+    fetch(`${PUBLIC_REST_API}/customers`).then((response) => {
       response.json().then((data) => {
         setDataEditor((prev) => ({
           ...prev,
@@ -63,6 +64,21 @@ export const useDataEditor = () => {
           isFetchingNewData: false,
           isLoading: false,
         }));
+      });
+    });
+  }
+
+  function createRecord(data: any) {
+    const PUBLIC_REST_API = import.meta.env.VITE_PUBLIC_REST_API;
+    fetch(`${PUBLIC_REST_API}/customers`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then((response) => {
+      response.json().then((data) => {
+        fetchData();
       });
     });
   }
@@ -88,7 +104,7 @@ export const useDataEditor = () => {
     setColumnVisibility,
     columnFilters,
     setColumnFilters,
-
+    createRecord,
     toggleAdd,
   };
 };

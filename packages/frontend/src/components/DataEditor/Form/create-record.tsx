@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/registry/default/ui/use-toast";
 import { useDataEditor } from "../Context";
+import { CustomerType } from "../Context/types";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -26,7 +27,7 @@ const FormSchema = z.object({
 });
 
 export default function CreateRecord() {
-  const { toggleAdd } = useDataEditor();
+  const { toggleAdd, createRecord } = useDataEditor();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -36,7 +37,7 @@ export default function CreateRecord() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    alert(JSON.stringify(data, null, 2));
+    createRecord(data);
   }
 
   const reset = () => {

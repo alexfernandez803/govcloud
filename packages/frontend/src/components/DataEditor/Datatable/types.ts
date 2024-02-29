@@ -9,3 +9,11 @@ export type User = {
   password: string;
   gender: "f" | "m" | "other";
 };
+
+export type CustomerType = {
+  firstName: string;
+  lastName: string;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+};
