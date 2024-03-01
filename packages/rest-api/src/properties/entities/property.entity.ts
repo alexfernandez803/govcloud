@@ -19,7 +19,10 @@ export class PropertyEntity extends BaseEntity {
   @Column({ name: 'assessed_value', type: 'decimal' })
   assessedValue: number;
 
-  @Column({ name: 'status', type: 'varchar', length: 50 })
+  @Column({ name: 'lot_size', type: 'decimal' })
+  lotSize: number;
+
+  @Column({ name: 'status', type: 'varchar', length: 50, nullable: true })
   status: string;
 
   @Column({ name: 'description', type: 'varchar', length: 250 })
@@ -28,9 +31,11 @@ export class PropertyEntity extends BaseEntity {
   @Column({ name: 'remarks', type: 'varchar', length: 250 })
   remarks: string;
 
-  @ManyToMany(() => CustomerEntity, (customer) => customer.properties, {
-    cascade: true,
+  @ManyToMany(() => CustomerEntity, (customer) => customer.properties, {})
+  @JoinTable({
+    name: 'customer_properties',
+    joinColumn: { name: 'property_id' },
+    inverseJoinColumn: { name: 'customer_id' },
   })
-  @JoinTable({ name: 'customer_properties' }) // Fix: Add parentheses around the options object
   customers: CustomerEntity[];
 }

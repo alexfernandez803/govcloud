@@ -12,6 +12,5 @@ export class CustomerEntity extends BaseEntity {
   lastName: string;
 
   @ManyToMany(() => PropertyEntity, (property) => property.customers)
-  @JoinTable({ name: 'customer_properties' })
   properties: PropertyEntity[];
 }

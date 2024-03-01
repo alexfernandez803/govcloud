@@ -13,6 +13,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { FilteringParams, Filtering } from 'src/decorators/filtering-params';
 import { PaginationParams, Pagination } from 'src/decorators/pagination-params';
 import { SortingParams, Sorting } from 'src/decorators/sorting-params';
+import { CreatePropertyDto } from 'src/properties/dto/create-property.dto';
 
 @Controller('customers')
 export class CustomersController {
@@ -42,11 +43,24 @@ export class CustomersController {
     @Param('id') id: string,
     @Body() updateCustomerDto: UpdateCustomerDto,
   ) {
-    return this.customersService.update(+id, updateCustomerDto);
+    return this.customersService.update(id, updateCustomerDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.customersService.remove(id);
+  }
+
+  @Post(':id/properties')
+  createProperty(
+    @Param('id') id: string,
+    @Body() createPropertyDto: CreatePropertyDto,
+  ) {
+    return this.customersService.createProperty(id, createPropertyDto);
+  }
+
+  @Get(':id/properties')
+  getProperties(@Param('id') id: string) {
+    return this.customersService.getProperties(id);
   }
 }

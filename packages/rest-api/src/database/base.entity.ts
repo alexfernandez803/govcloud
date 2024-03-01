@@ -2,7 +2,7 @@ import { CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class BaseEntity {
   @PrimaryColumn({ name: 'id', type: 'uuid', generated: 'uuid' })
-  id?: string;
+  id: string;
 
   @CreateDateColumn({
     name: 'created_at',
