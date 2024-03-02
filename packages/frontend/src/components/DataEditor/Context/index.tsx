@@ -94,6 +94,16 @@ export const useDataEditor = () => {
       },
     }));
   };
+
+  function setSelectedRecord(customer: CustomerType) {
+    setDataEditor((prev) => ({
+      ...prev,
+      interfaceState: {
+        ...prev.interfaceState,
+        selectedRecord: customer,
+      },
+    }));
+  }
   return {
     dataEditor,
     setDataEditor,
@@ -101,6 +111,7 @@ export const useDataEditor = () => {
     createRecord,
     toggleAdd,
     setFilter,
+    setSelectedRecord,
   };
 };
 

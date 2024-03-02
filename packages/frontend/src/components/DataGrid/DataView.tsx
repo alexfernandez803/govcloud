@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/registry/default/ui/badge";
 
 export default function DataView() {
-  const { fetchData, dataEditor } = useDataEditor();
+  const { fetchData, dataEditor, setSelectedRecord } = useDataEditor();
 
   React.useEffect(() => {
     fetchData();
@@ -24,9 +24,10 @@ export default function DataView() {
           key={item.id}
           className={cn(
             "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-            (dataEditor.interfaceState.selectedRecord ?? "" === item.id) &&
+            dataEditor.interfaceState.selectedRecord?.id === item.id &&
               "bg-muted"
           )}
+          onClick={() => setSelectedRecord(item)}
         >
           <div className="flex w-full flex-col ">
             <div className="flex items-center">
@@ -48,7 +49,7 @@ export default function DataView() {
               <div
                 className={cn(
                   "ml-auto text-xs",
-                  dataEditor.interfaceState.selectedRecord ?? "" === item.id
+                  dataEditor.interfaceState.selectedRecord?.id === item.id
                     ? "text-foreground"
                     : "text-muted-foreground"
                 )}
