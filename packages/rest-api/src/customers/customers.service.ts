@@ -40,6 +40,7 @@ export class CustomersService {
       order,
       take: limit,
       skip: offset,
+      relations: ['properties'],
     });
 
     return {

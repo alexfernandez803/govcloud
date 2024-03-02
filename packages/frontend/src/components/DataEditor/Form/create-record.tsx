@@ -38,6 +38,7 @@ export default function CreateRecord() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     createRecord(data);
+    form.reset();
   }
 
   const reset = () => {

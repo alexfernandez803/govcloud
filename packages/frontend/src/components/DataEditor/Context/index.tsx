@@ -1,25 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { initialData, initialInterfaceState } from "./consts";
-import {
-  ColumnFiltersState,
-  RowSelectionState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/react-table";
-import { CustomerType } from "./types";
+import { CustomerType, DataViewType } from "./types";
+const PUBLIC_REST_API = import.meta.env.VITE_PUBLIC_REST_API;
 
 export type InterfaceStateType = {
   filter: string;
-  columnVisibility?: VisibilityState;
-  columnFilters?: ColumnFiltersState;
-  sorting?: SortingState;
-  rowSelection?: RowSelectionState;
   isAddOpen: boolean;
+  dataView: DataViewType;
+  selectedRecord?: CustomerType;
 };
 
 export type DataEditorType = {
   interfaceState: InterfaceStateType;
-  apiData: any[];
+  apiData: CustomerType[];
   isLoading: boolean;
 };
 export type DataEditorContextProps = {
@@ -38,25 +31,23 @@ export const useDataEditor = () => {
       "DataEditorContext must be used within a DataEditorProvider"
     );
   }
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+
   const { dataEditor, setDataEditor } = context;
 
-  function fetchData() {
+  function fetchData(filter: string = "") {
     setDataEditor((prev) => ({
       ...prev,
       isFetchingNewData: true,
       isLoading: true,
     }));
 
-    const PUBLIC_REST_API = import.meta.env.VITE_PUBLIC_REST_API;
+    let filterQuery = "";
 
-    fetch(`${PUBLIC_REST_API}/customers`).then((response) => {
+    if (filter !== "") {
+      filterQuery = `?filter=firstName:like:${filter}`;
+    }
+
+    fetch(`${PUBLIC_REST_API}/customers${filterQuery}`).then((response) => {
       response.json().then((data) => {
         setDataEditor((prev) => ({
           ...prev,
@@ -92,20 +83,24 @@ export const useDataEditor = () => {
       },
     }));
   };
+
+  const setFilter = (text: string) => {
+    fetchData(text);
+    setDataEditor((prev) => ({
+      ...prev,
+      interfaceState: {
+        ...prev.interfaceState,
+        filter: text,
+      },
+    }));
+  };
   return {
     dataEditor,
     setDataEditor,
     fetchData,
-    sorting,
-    setSorting,
-    rowSelection,
-    setRowSelection,
-    columnVisibility,
-    setColumnVisibility,
-    columnFilters,
-    setColumnFilters,
     createRecord,
     toggleAdd,
+    setFilter,
   };
 };
 
@@ -118,6 +113,7 @@ const DataEditorProvider: React.FC<{
     isLoading: false,
   };
   const [dataEditor, setDataEditor] = useState<DataEditorType>(initialState);
+
   return (
     <DataEditorContext.Provider value={{ dataEditor, setDataEditor }}>
       {children}

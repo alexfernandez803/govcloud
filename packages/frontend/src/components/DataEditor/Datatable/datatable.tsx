@@ -40,8 +40,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="">
-      {dataEditor.isLoading && <Skeleton className="w-full h-[600px]" />}
-
       {!dataEditor.isLoading && (
         <>
           <Table>

@@ -28,7 +28,7 @@ export class CustomersController {
   findAll(
     @PaginationParams() paginationParams?: Pagination,
     @SortingParams(['firstName', 'lastName']) sort?: Sorting,
-    @FilteringParams(['firstName', 'id', 'firstName']) filter?: Filtering,
+    @FilteringParams(['firstName', 'id', 'lastName']) filter?: Filtering,
   ) {
     return this.customersService.findAll(paginationParams, sort, filter);
   }
