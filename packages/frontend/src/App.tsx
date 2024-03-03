@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+import { Outlet, Link } from "react-router-dom";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { UserNav } from "./components/user-nav";

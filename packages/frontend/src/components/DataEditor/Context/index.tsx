@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { initialData, initialInterfaceState } from "./consts";
 import { CustomerType, DataViewType } from "./types";
 const PUBLIC_REST_API = import.meta.env.VITE_PUBLIC_REST_API;
-
+import { useNavigate } from "react-router-dom";
 export type InterfaceStateType = {
   filter: string;
   isAddOpen: boolean;
@@ -32,6 +32,7 @@ export const useDataEditor = () => {
     );
   }
 
+  const navigate = useNavigate();
   const { dataEditor, setDataEditor } = context;
 
   function fetchData(filter: string = "") {
@@ -96,6 +97,7 @@ export const useDataEditor = () => {
   };
 
   function setSelectedRecord(customer: CustomerType) {
+    navigate(`/customers/${customer.id}`);
     setDataEditor((prev) => ({
       ...prev,
       interfaceState: {

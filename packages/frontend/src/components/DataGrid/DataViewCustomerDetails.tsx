@@ -46,7 +46,7 @@ interface Properties {
   [key: string]: string | number | undefined | null;
 }
 
-export default function CustomerDetails() {
+export default function DataViewCustomerDetails() {
   const { dataEditor } = useDataEditor();
   const { selectedRecord } = dataEditor.interfaceState;
 

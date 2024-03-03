@@ -1,6 +1,6 @@
-import CustomerDetails from "./CustomerDetails";
+import CustomerDetails from "./DataViewCustomerDetails";
 import DataView from "./DataView";
-
+import { Outlet, Link } from "react-router-dom";
 export default function DataGrid() {
   return (
     <div className="flex w-full h-screen">
@@ -9,7 +9,7 @@ export default function DataGrid() {
       </div>
 
       <div className="w-3/4 border flex-1  h-full p-2">
-        <CustomerDetails />
+        <Outlet />
       </div>
     </div>
   );
