@@ -1,6 +1,6 @@
-import { ScrollArea } from "@/registry/default/ui/scroll-area";
+import { ScrollArea } from "@/registry/new-york/ui/scroll-area";
 import { useDataEditor } from "../DataEditor/Context";
-
+import { Link } from "react-router-dom";
 const FieldDetails = ({
   label,
   value,
@@ -46,6 +46,31 @@ interface Properties {
   [key: string]: string | number | undefined | null;
 }
 
+const PropertyDetails = ({ property }: { property: Properties }) => {
+  return (
+    <Link
+      className=" p-4 rounded-lg space-y-2 border border-gray-800 bg-gray-100 hover:bg-gray-200 transition-all"
+      to={`/properties/${property.id}`}
+    >
+      {[
+        "addressLine1",
+        "addressLine2",
+        "barangay",
+        "city",
+        "assessedValue",
+        "lotSize",
+        "status",
+        "description",
+      ].map((key) => {
+        if (key === "id") return null;
+        return (
+          <FieldDetailsKey label={formatFieldName(key)} value={property[key]} />
+        );
+      })}
+    </Link>
+  );
+};
+
 export default function DataViewCustomerDetails() {
   const { dataEditor } = useDataEditor();
   const { selectedRecord } = dataEditor.interfaceState;
@@ -59,10 +84,10 @@ export default function DataViewCustomerDetails() {
   }
 
   return (
-    <ScrollArea className="h-screen">
-      <div className="flex flex-row space-x-4">
+    <ScrollArea className="h-screen ">
+      <div className="flex flex-row space-x-4 ">
         <div className="w-1/4 flex-1 h-full">
-          <div className="w-full h-full  space-y-6">
+          <div className="w-full h-full space-y-6">
             <div>
               <h3 className="text-lg font-medium">Customer Details</h3>
             </div>
@@ -99,29 +124,7 @@ export default function DataViewCustomerDetails() {
                 selectedRecord?.properties.length > 0 && (
                   <div className="grid grid-cols-2 gap-2 p-2 pt-0 ">
                     {selectedRecord?.properties.map((property: Properties) => (
-                      <div className=" p-4 rounded-lg space-y-2 border">
-                        {[
-                          "addressLine1",
-                          "addressLine2",
-                          "barangay",
-                          "city",
-                          "assessedValue",
-                          "lotSize",
-                          "status",
-                          "description",
-                          "remarks",
-                          "createdAt",
-                          "updatedAt",
-                        ].map((key) => {
-                          if (key === "id") return null;
-                          return (
-                            <FieldDetailsKey
-                              label={formatFieldName(key)}
-                              value={property[key]}
-                            />
-                          );
-                        })}
-                      </div>
+                      <PropertyDetails property={property} />
                     ))}
                   </div>
                 )}

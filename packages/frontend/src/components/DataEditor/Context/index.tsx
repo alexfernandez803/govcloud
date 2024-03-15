@@ -48,7 +48,7 @@ export const useDataEditor = () => {
       filterQuery = `?filter=firstName:like:${filter}`;
     }
 
-    fetch(`${PUBLIC_REST_API}/customers${filterQuery}`).then((response) => {
+    fetch(`${PUBLIC_REST_API}/api/customers${filterQuery}`).then((response) => {
       response.json().then((data) => {
         setDataEditor((prev) => ({
           ...prev,

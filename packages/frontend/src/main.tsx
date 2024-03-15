@@ -2,24 +2,42 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./globals.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import PropertyDetails from "./routes/property";
 import CustomerDetails from "./routes/customer-details";
+import Root, { loader as rootLoader } from "./routes/root";
+
+import { loader as propertyLoader } from "./routes/property";
+import { loader as customerLoader } from "./routes/customer-details";
+import { CustomerAdd } from "./routes/customer-add";
+import PropertyAdd, { PropertyForm } from "./routes/property-add";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: rootLoader,
     children: [
       {
-        path: "/properties/:propertyId",
-        element: <PropertyDetails />,
+        path: "/customers",
+        element: <CustomerAdd />,
       },
       {
         path: "/customers/:customerId",
         element: <CustomerDetails />,
+        loader: customerLoader,
+        children: [
+          {
+            path: "/customers/:customerId/properties/:propertyId",
+            element: <PropertyDetails />,
+            loader: propertyLoader,
+          },
+          {
+            path: "/customers/:customerId/properties/new",
+            element: <PropertyForm />,
+          },
+        ],
       },
     ],
   },

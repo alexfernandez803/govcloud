@@ -3,14 +3,12 @@ import { useDataEditor } from "../DataEditor/Context";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow } from "date-fns";
 import { LandPlot } from "lucide-react";
-import { Link } from "react-router-dom";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/registry/default/ui/avatar";
-import { Badge } from "@/registry/default/ui/badge";
-import { Button } from "../ui/button";
+} from "@/registry/new-york/ui/avatar";
+import { Badge } from "@/registry/new-york/ui/badge";
 
 export default function DataView() {
   const { fetchData, dataEditor, setSelectedRecord } = useDataEditor();

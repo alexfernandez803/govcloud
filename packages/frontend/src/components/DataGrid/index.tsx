@@ -8,7 +8,7 @@ export default function DataGrid() {
         <DataView />
       </div>
 
-      <div className="w-3/4 border flex-1  h-full p-2">
+      <div className="w-3/4 border rounded-lg flex-1  h-full p-2">
         <Outlet />
       </div>
     </div>

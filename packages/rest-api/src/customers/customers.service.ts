@@ -40,7 +40,6 @@ export class CustomersService {
       order,
       take: limit,
       skip: offset,
-      relations: ['properties'],
     });
 
     return {
@@ -52,7 +51,11 @@ export class CustomersService {
   }
 
   findOne(id: string): Promise<CustomerEntity> {
-    const customer = this.customerRepository.findOneBy({ id });
+    const customer = this.customerRepository.findOne({
+      where: { id },
+      relations: ['properties'],
+    });
+
     if (!customer) {
       throw new Error('Customer not found');
     }

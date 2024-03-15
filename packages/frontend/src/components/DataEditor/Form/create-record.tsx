@@ -13,7 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "@/registry/default/ui/use-toast";
+import { toast } from "@/registry/new-york/ui/use-toast";
 import { useDataEditor } from "../Context";
 import { CustomerType } from "../Context/types";
 
