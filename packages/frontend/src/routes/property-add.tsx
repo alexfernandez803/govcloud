@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +16,8 @@ import { Textarea } from "@/registry/new-york/ui/textarea";
 import { ScrollArea } from "@/registry/new-york/ui/scroll-area";
 import { toast } from "@/registry/new-york/ui/use-toast";
 import React from "react";
+import { createProperty } from "@/api/property";
+import { useParams, useRevalidator, useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   addressLine1: z.string().min(2, {
@@ -35,8 +35,11 @@ const formSchema = z.object({
   description: z.string().min(2, {
     message: "description must be at least 2 characters.",
   }),
-  lotSize: z.coerce.number().int().positive().min(1, {
+  remarks: z.string().min(2, {
     message: "description must be at least 2 characters.",
+  }),
+  lotSize: z.coerce.number().int().positive().min(1, {
+    message: "lotSize must be more  than 1.",
   }),
   assessedValue: z.coerce.number().int().positive().min(1, {
     message: "assessedValue must be at least 2 characters.",
@@ -44,6 +47,8 @@ const formSchema = z.object({
 });
 
 export function PropertyForm() {
+  const { customerId } = useParams();
+  const navigate = useNavigate();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,28 +57,41 @@ export function PropertyForm() {
       addressLine2: "",
       barangay: "",
       city: "",
+      remarks: "",
       description: "",
       lotSize: 0,
       assessedValue: 0,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+  let revalidator = useRevalidator();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!customerId) return;
+    try {
+      // 2. Submit the form
+      await createProperty(customerId, values);
+      toast({
+        title: "You submitted the following values:",
+      });
+
+      form.reset();
+      revalidator.revalidate();
+    } catch (error) {
+      // 3. Handle any errors
+      toast({
+        title: "Something went wrong",
+        description: error.message,
+      });
+    }
   }
 
   function onClear() {
     form.reset();
+  }
+
+  function onCancel() {
+    navigate(`/customers/${customerId}`);
   }
   React.useEffect(() => {
     form.setFocus("addressLine1");
@@ -167,6 +185,20 @@ export function PropertyForm() {
                 />
                 <FormField
                   control={form.control}
+                  name="remarks"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Remarks</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="" {...field} />
+                      </FormControl>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="lotSize"
                   render={({ field }) => (
                     <FormItem>
@@ -193,7 +225,7 @@ export function PropertyForm() {
                     </FormItem>
                   )}
                 />
-                <div className="py-4 flex space-x-4 justify-end">
+                <div className="py-4 flex space-x-2 justify-end">
                   <Button className="w-32" type="submit">
                     Submit
                   </Button>
@@ -204,6 +236,14 @@ export function PropertyForm() {
                     onClick={onClear}
                   >
                     Clear
+                  </Button>
+                  <Button
+                    variant={"outline"}
+                    type="button"
+                    className="w-32"
+                    onClick={onCancel}
+                  >
+                    Cancel
                   </Button>
                 </div>
               </form>

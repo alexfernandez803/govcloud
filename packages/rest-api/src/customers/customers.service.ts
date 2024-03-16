@@ -37,7 +37,9 @@ export class CustomersService {
 
     const [languages, total] = await this.customerRepository.findAndCount({
       where,
-      order,
+      order: {
+        updatedAt: 'desc',
+      },
       take: limit,
       skip: offset,
     });
@@ -104,6 +106,11 @@ export class CustomersService {
     const customer = await this.customerRepository.findOne({
       where: { id },
       relations: ['properties'],
+      order: {
+        properties: {
+          updatedAt: 'desc',
+        },
+      },
     });
     if (!customer) {
       throw new Error('Customer not found');

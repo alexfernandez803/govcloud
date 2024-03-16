@@ -12,4 +12,18 @@ async function getPropertyById(id: string): Promise<any> {
   }
 }
 
-export { getPropertyById };
+async function createProperty(customerId: string, property: any): Promise<any> {
+  try {
+    const response = await axios.post(
+      `${PUBLIC_REST_API}/api/customers/${customerId}/properties`,
+      property
+    );
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error creating property:", error);
+    throw error;
+  }
+}
+
+export { getPropertyById, createProperty };

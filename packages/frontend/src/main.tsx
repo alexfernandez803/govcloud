@@ -9,7 +9,7 @@ import Root, { loader as rootLoader } from "./routes/root";
 
 import { loader as propertyLoader } from "./routes/property";
 import { loader as customerLoader } from "./routes/customer-details";
-import { CustomerAdd } from "./routes/customer-add";
+import { CustomerForm } from "./routes/customer-add";
 import PropertyAdd, { PropertyForm } from "./routes/property-add";
 
 const router = createBrowserRouter([
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/customers",
-        element: <CustomerAdd />,
+        element: <CustomerForm />,
       },
       {
         path: "/customers/:customerId",

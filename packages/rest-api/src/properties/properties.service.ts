@@ -29,7 +29,9 @@ export class PropertiesService {
 
     const [languages, total] = await this.propertyRepository.findAndCount({
       where,
-      order,
+      order: {
+        updatedAt: 'desc',
+      },
       take: limit,
       skip: offset,
     });

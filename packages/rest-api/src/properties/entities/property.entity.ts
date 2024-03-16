@@ -25,10 +25,10 @@ export class PropertyEntity extends BaseEntity {
   @Column({ name: 'status', type: 'varchar', length: 50, nullable: true })
   status: string;
 
-  @Column({ name: 'description', type: 'varchar', length: 250 })
+  @Column({ name: 'description', type: 'varchar', length: 250, nullable: true })
   description: string;
 
-  @Column({ name: 'remarks', type: 'varchar', length: 250 })
+  @Column({ name: 'remarks', type: 'varchar', length: 250, nullable: true })
   remarks: string;
 
   @ManyToMany(() => CustomerEntity, (customer) => customer.properties, {})

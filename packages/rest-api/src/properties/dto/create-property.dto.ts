@@ -7,7 +7,6 @@ export class CreatePropertyDto {
   addressLine1: string;
 
   @IsString()
-  @MinLength(2, { message: 'addressLine2 must have atleast 2 characters.' })
   addressLine2: string;
 
   @IsString()
@@ -24,9 +23,10 @@ export class CreatePropertyDto {
   @IsNumber()
   lotSize: number;
 
+  @IsString()
   @MinLength(2, { message: 'description must have atleast 2 characters.' })
   description: string;
 
-  @MinLength(2, { message: 'remarks must have atleast 2 characters.' })
+  @IsString()
   remarks: string;
 }

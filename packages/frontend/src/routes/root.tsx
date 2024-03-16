@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/registry/new-york/ui/toaster";
 
 export async function loader() {
   const customers = await getCustomers();
@@ -90,6 +91,7 @@ export default function Root() {
       <div className="flex  w-3/4 p-2">
         <Outlet />
       </div>
+      <Toaster />
     </div>
   );
 }
