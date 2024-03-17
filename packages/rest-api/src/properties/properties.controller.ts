@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { PropertiesService } from './properties.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
-import { UpdatePropertyDto } from './dto/update-property.dto';
 import { FilteringParams, Filtering } from 'src/decorators/filtering-params';
 import { PaginationParams, Pagination } from 'src/decorators/pagination-params';
 import { SortingParams, Sorting } from 'src/decorators/sorting-params';
@@ -37,16 +36,13 @@ export class PropertiesController {
     return this.propertiesService.findOne(id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePropertyDto: UpdatePropertyDto,
-  ) {
-    return this.propertiesService.update(+id, updatePropertyDto);
+  @Patch(':id/status/:status')
+  toArchive(@Param('id') id: string, @Param('status') status: string) {
+    return this.propertiesService.updateStatus(id, status);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.propertiesService.remove(+id);
+    return this.propertiesService.remove(id);
   }
 }

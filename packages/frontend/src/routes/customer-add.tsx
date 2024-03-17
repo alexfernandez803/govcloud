@@ -15,7 +15,6 @@ import { Input } from "@/registry/new-york/ui/input";
 import { ScrollArea } from "@/registry/new-york/ui/scroll-area";
 import { toast } from "@/registry/new-york/ui/use-toast";
 import React from "react";
-import { createProperty } from "@/api/property";
 import { useRevalidator, useNavigate } from "react-router-dom";
 import { createCustomer } from "@/api/customers";
 
@@ -30,6 +29,7 @@ const formSchema = z.object({
 
 export function CustomerForm() {
   const navigate = useNavigate();
+  let revalidator = useRevalidator();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,20 +39,17 @@ export function CustomerForm() {
     },
   });
 
-  let revalidator = useRevalidator();
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // 2. Submit the form
-      await createCustomer(values);
-      toast({
-        title: "You submitted the following values:",
-      });
-
-      form.reset();
+      const customer = await createCustomer(values);
+      navigate(`/customers/${customer.id}`, { replace: true });
       revalidator.revalidate();
+      form.reset();
+      toast({
+        title: "Record successfully created",
+      });
     } catch (error) {
-      // 3. Handle any errors
       toast({
         title: "Something went wrong",
         description: error.message,
@@ -83,7 +80,6 @@ export function CustomerForm() {
             </div>
             <Form {...form}>
               <form
-                {...form}
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-2 p-4 bg-white  w-full"
               >

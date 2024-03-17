@@ -53,11 +53,23 @@ export class PropertiesService {
     return property;
   }
 
-  update(id: number, updatePropertyDto: UpdatePropertyDto) {
+  update(id: string, updatePropertyDto: UpdatePropertyDto) {
     return `This action updates a #${id} property`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} property`;
+  async remove(id: string) {
+    const property = await this.propertyRepository.findOneBy({ id });
+    if (!property) {
+      throw new Error('Property not found');
+    }
+    return this.propertyRepository.remove(property);
+  }
+  async updateStatus(id: string, status: string) {
+    const property = await this.propertyRepository.findOneBy({ id });
+    if (!property) {
+      throw new Error('Property not found');
+    }
+    property.status = status;
+    return await this.propertyRepository.save(property);
   }
 }

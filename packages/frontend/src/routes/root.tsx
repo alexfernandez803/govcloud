@@ -11,7 +11,6 @@ import { getCustomers } from "@/api/customers";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/registry/new-york/ui/toaster";
 
@@ -24,10 +23,10 @@ function Toolbar() {
   const submit = useSubmit();
   const { q } = useLoaderData();
   return (
-    <Form id="search-form" role="search" className="p-2">
+    <div id="search-form" role="search" className="p-2">
       <div className="flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
-        <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full">
-          <form>
+        <Form>
+          <div className="bg-background/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 w-full">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
@@ -42,8 +41,8 @@ function Toolbar() {
                 }}
               />
             </div>
-          </form>
-        </div>
+          </div>
+        </Form>
 
         <Button asChild>
           <Link to={`/customers`} className="">
@@ -51,7 +50,7 @@ function Toolbar() {
           </Link>
         </Button>
       </div>
-    </Form>
+    </div>
   );
 }
 export default function Root() {
@@ -60,11 +59,11 @@ export default function Root() {
   const submit = useSubmit();
 
   return (
-    <div className="flex h-screen">
-      <div className="sidebar w-1/4 bg-slate-50 h-screen border-r border-gray-200">
+    <div className="flex min-h-screen">
+      <div className="sidebar w-1/4 bg-slate-50 border-r border-gray-200 min-h-screen">
         <Toolbar />
-        <nav className=" h-screen">
-          <ul className="py-2  h-screen">
+        <nav className=" min-h-screen">
+          <ul className="py-2  ">
             {customers &&
               customers.items.map((customer: any) => (
                 <li
@@ -88,7 +87,7 @@ export default function Root() {
           </ul>
         </nav>
       </div>
-      <div className="flex  w-3/4 p-2">
+      <div className="flex  w-3/4 min-h-screen">
         <Outlet />
       </div>
       <Toaster />

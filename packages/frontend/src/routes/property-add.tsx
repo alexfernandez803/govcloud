@@ -70,9 +70,13 @@ export function PropertyForm() {
     if (!customerId) return;
     try {
       // 2. Submit the form
-      await createProperty(customerId, values);
+      const property = await createProperty(customerId, values);
       toast({
         title: "You submitted the following values:",
+      });
+
+      navigate(`/customers/${customerId}/properties/${property.id}`, {
+        replace: true,
       });
 
       form.reset();
@@ -197,34 +201,36 @@ export function PropertyForm() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="lotSize"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Lot Size</FormLabel>
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
+                <div className="flex justify-between">
+                  <FormField
+                    control={form.control}
+                    name="lotSize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Lot Size</FormLabel>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="assessedValue"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Assessed Value</FormLabel>
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="assessedValue"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Assessed Value</FormLabel>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className="py-4 flex space-x-2 justify-end">
                   <Button className="w-32" type="submit">
                     Submit

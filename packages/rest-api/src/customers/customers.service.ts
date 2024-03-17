@@ -28,7 +28,7 @@ export class CustomersService {
   }
 
   async findAll(
-    { page = 0, limit = 10, size = 100, offset = 0 }: Pagination,
+    { page = 0, limit = 100, size = 100, offset = 0 }: Pagination,
     sort?: Sorting,
     filter?: Filtering,
   ) {

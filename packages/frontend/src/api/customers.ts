@@ -13,30 +13,26 @@ async function getCustomers() {
   }
 }
 async function getCustomerById(id: string) {
-  try {
-    const response = await axios.get(`${PUBLIC_REST_API}/api/customers/${id}`);
-    const customers = response.data;
-    // Process the customers data here
-    return customers;
-  } catch (error) {
-    // Handle the error here
-    console.error(error);
-  }
+  const response = await axios.get(`${PUBLIC_REST_API}/api/customers/${id}`);
+  const customers = response.data;
+  return customers;
 }
 
 async function createCustomer(customerData: any) {
-  try {
-    const response = await axios.post(
-      `${PUBLIC_REST_API}/api/customers`,
-      customerData
-    );
-    const newCustomer = response.data;
-    // Process the new customer data here
-    console.log(newCustomer);
-  } catch (error) {
-    // Handle the error here
-    console.error(error);
-  }
+  const response = await axios.post(
+    `${PUBLIC_REST_API}/api/customers`,
+    customerData
+  );
+  const newCustomer = response.data;
+  return newCustomer;
 }
 
-export { getCustomers, createCustomer, getCustomerById };
+async function getCustomerProperties(id: string) {
+  const response = await axios.get(
+    `${PUBLIC_REST_API}/api/customers/${id}/properties`
+  );
+  const properties = response.data;
+  return properties;
+}
+
+export { getCustomers, createCustomer, getCustomerById, getCustomerProperties };

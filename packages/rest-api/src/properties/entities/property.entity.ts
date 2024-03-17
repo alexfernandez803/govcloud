@@ -22,7 +22,13 @@ export class PropertyEntity extends BaseEntity {
   @Column({ name: 'lot_size', type: 'decimal' })
   lotSize: number;
 
-  @Column({ name: 'status', type: 'varchar', length: 50, nullable: true })
+  @Column({
+    name: 'status',
+    type: 'varchar',
+    length: 50,
+    nullable: true,
+    default: 'active',
+  })
   status: string;
 
   @Column({ name: 'description', type: 'varchar', length: 250, nullable: true })

@@ -11,6 +11,9 @@ export class CustomerEntity extends BaseEntity {
   @Column({ name: 'last_name', type: 'varchar', length: 50 })
   lastName: string;
 
+  @Column({ name: 'status', type: 'varchar', length: 50, default: 'active' })
+  status: string;
+
   @ManyToMany(() => PropertyEntity, (property) => property.customers)
   properties: PropertyEntity[];
 }

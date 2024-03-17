@@ -24,7 +24,7 @@ export const PaginationParams = createParamDecorator(
     }
 
     if (isNaN(size) || size < 0 || isNaN(size) || size < 0) {
-      size = 10;
+      size = 100;
     }
 
     // do not allow to fetch large slices of the dataset
