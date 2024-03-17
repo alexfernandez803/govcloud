@@ -14,6 +14,8 @@ import {
   useParams,
 } from "react-router-dom";
 import { PropertyList } from "@/components/property/PropertyList";
+import { ActionToolbar } from "@/components/customers/ActionToolbar";
+import { TooltipProvider } from "@/registry/new-york/ui/tooltip";
 
 export async function loader({ params }: { params: any }) {
   const customer = await getCustomerById(params.customerId);
@@ -27,46 +29,44 @@ export default function CustomerDetails() {
 
   return (
     <div className="w-full space-y-2 min-h-screen">
-      <div className=" border-b-2 border-gray-400">
-        <div className="px-4 py-5 sm:px-6 gap-y-7">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            Customer Details
-          </h3>
+      <TooltipProvider>
+        <div className=" border-b-2 border-gray-400">
+          <ActionToolbar />
+          <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+            <dl className="sm:divide-y sm:divide-gray-200  flex-col grid grid-cols-3">
+              <UserDetailsFields
+                fieldName="First Name"
+                fieldValue={customer.firstName}
+              />
+              <UserDetailsFields
+                fieldName="Last Name"
+                fieldValue={customer.lastName}
+              />
+              <UserDetailsFields
+                fieldName="Status"
+                fieldValue={customer.status}
+              />
+              <UserDetailsFields
+                fieldName="Created At"
+                fieldValue={formatDte(customer.createdAt)}
+              />
+              <UserDetailsFields
+                fieldName="Updated At"
+                fieldValue={formatDte(customer.updatedAt)}
+              />
+            </dl>
+          </div>
         </div>
-        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-          <dl className="sm:divide-y sm:divide-gray-200  flex-col grid grid-cols-3">
-            <UserDetailsFields
-              fieldName="First Name"
-              fieldValue={customer.firstName}
-            />
-            <UserDetailsFields
-              fieldName="Last Name"
-              fieldValue={customer.lastName}
-            />
-            <UserDetailsFields
-              fieldName="Status"
-              fieldValue={customer.status}
-            />
-            <UserDetailsFields
-              fieldName="Created At"
-              fieldValue={formatDte(customer.createdAt)}
-            />
-            <UserDetailsFields
-              fieldName="Updated At"
-              fieldValue={formatDte(customer.updatedAt)}
-            />
-          </dl>
+        <div className="flex p-2">
+          <PropertyList
+            customerId={customer.id}
+            properties={customerProperties}
+          />
+          <div className="w-2/3  min-h-screen ">
+            <Outlet />
+          </div>
         </div>
-      </div>
-      <div className="flex p-2">
-        <PropertyList
-          customerId={customer.id}
-          properties={customerProperties}
-        />
-        <div className="w-2/3  min-h-screen ">
-          <Outlet />
-        </div>
-      </div>
+      </TooltipProvider>
     </div>
   );
 }

@@ -18,6 +18,7 @@ import { toast } from "@/registry/new-york/ui/use-toast";
 import React from "react";
 import { createProperty } from "@/api/property";
 import { useParams, useRevalidator, useNavigate } from "react-router-dom";
+import { Save } from "lucide-react";
 
 const formSchema = z.object({
   addressLine1: z.string().min(2, {
@@ -72,7 +73,7 @@ export function PropertyForm() {
       // 2. Submit the form
       const property = await createProperty(customerId, values);
       toast({
-        title: "You submitted the following values:",
+        title: "Record successfully created",
       });
 
       navigate(`/customers/${customerId}/properties/${property.id}`, {
@@ -124,7 +125,7 @@ export function PropertyForm() {
                     <FormItem>
                       <FormLabel>Address Line 1</FormLabel>
                       <FormControl>
-                        <Input placeholder="" {...field} />
+                        <Input placeholder="" {...field} className=" w-full" />
                       </FormControl>
 
                       <FormMessage />
@@ -138,41 +139,43 @@ export function PropertyForm() {
                     <FormItem>
                       <FormLabel>Address Line 2</FormLabel>
                       <FormControl>
-                        <Input placeholder="" {...field} />
+                        <Input placeholder="" {...field} className=" w-full" />
                       </FormControl>
 
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="barangay"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Barangay</FormLabel>
-                      <FormControl>
-                        <Input placeholder="" {...field} className="w-1/2" />
-                      </FormControl>
+                <div className="flex w-full space-x-4 ">
+                  <FormField
+                    control={form.control}
+                    name="barangay"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Barangay</FormLabel>
+                        <FormControl>
+                          <Input placeholder="" {...field} className="w-64" />
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input placeholder="" {...field} />
-                      </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input placeholder="" {...field} className="w-64" />
+                        </FormControl>
 
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <FormField
                   control={form.control}
                   name="description"
@@ -180,7 +183,11 @@ export function PropertyForm() {
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="" {...field} />
+                        <Textarea
+                          placeholder=""
+                          {...field}
+                          className=" w-full"
+                        />
                       </FormControl>
 
                       <FormMessage />
@@ -207,7 +214,7 @@ export function PropertyForm() {
                     name="lotSize"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lot Size</FormLabel>
+                        <FormLabel>Lot Size(sqm.)</FormLabel>
                         <FormControl>
                           <Input type="number" {...field} />
                         </FormControl>
@@ -232,8 +239,8 @@ export function PropertyForm() {
                   />
                 </div>
                 <div className="py-4 flex space-x-2 justify-end">
-                  <Button className="w-32" type="submit">
-                    Submit
+                  <Button className="w-32 space-x-2" type="submit">
+                    <Save></Save> <span>Save</span>
                   </Button>
                   <Button
                     variant={"outline"}

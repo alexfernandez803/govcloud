@@ -1,5 +1,6 @@
 import axios from "axios";
 import { PUBLIC_REST_API } from "./config";
+import { Status } from "@/lib/types";
 
 async function getPropertyById(id: string): Promise<any> {
   try {
@@ -25,8 +26,6 @@ async function createProperty(customerId: string, property: any): Promise<any> {
     throw error;
   }
 }
-
-export type Status = "active" | "archived" | "pending" | "sold" | "inactive";
 
 async function updateStatus(id: string, status: Status) {
   try {

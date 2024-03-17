@@ -51,19 +51,24 @@ const PropertyDetails = ({ property }: { property: Properties }) => {
       to={`/customers/${customerId}/properties/${property.id}`}
       className={({ isActive }) =>
         cn(
-          " w-full  bg-gray-200 border-black hover:bg-gray-100  py-4 px-4 rounded-lg border transition-all gap-4",
+          " w-full  bg-gray-200 border-black hover:bg-gray-100  py-4 px-4  space-y-4 rounded-lg border transition-all gap-4",
           isActive && "hover:bg-gray-50 bg-white border-green-700"
         )
       }
     >
-      <div className="flex w-full flex-col gap-2">
-        <div className="flex items-center align-top p-2">
-          <div className="flex items-center  gap-2 ">
+      <div className="flex w-full flex-col ">
+        <div className="flex items-center ">
+          <div className="flex items-center  space-x-2">
             <div className="py-2 text-xs">
               {property.addressLine1} {property.addressLine2}{" "}
               {property.barangay} {property.city}
             </div>
-            <span className="flex h-2 w-2 rounded-full bg-blue-600"></span>
+            <span
+              className={cn("flex h-2 w-2 rounded-full bg-blue-600", {
+                "bg-green-500": property.status === "active",
+                "bg-gray-500": property.status !== "active",
+              })}
+            ></span>
           </div>
           <div className="ml-auto text-xs text-foreground">
             {formatDte(property.updatedAt)}

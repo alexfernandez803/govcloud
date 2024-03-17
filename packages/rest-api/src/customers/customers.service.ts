@@ -36,7 +36,9 @@ export class CustomersService {
     const order = getOrder(sort);
 
     const [languages, total] = await this.customerRepository.findAndCount({
-      where,
+      where: {
+        ...where,
+      },
       order: {
         updatedAt: 'desc',
       },
@@ -79,6 +81,19 @@ export class CustomersService {
 
     return this.customerRepository.save(customer);
   }
+  async updateStatus(id: string, status: string) {
+    const customer = await this.customerRepository.findOne({
+      where: { id },
+    });
+
+    if (!customer) {
+      throw new Error('Customer not found');
+    }
+
+    customer.status = status;
+
+    return await this.customerRepository.save(customer);
+  }
 
   async createProperty(customerId: string, property: CreatePropertyDto) {
     const customer = await this.customerRepository.findOne({
@@ -102,20 +117,24 @@ export class CustomersService {
     return this.propertyRepository.save(existing);
   }
 
-  async getProperties(id: string) {
+  async getProperties(id: string, status?: string) {
     const customer = await this.customerRepository.findOne({
-      where: { id },
-      relations: ['properties'],
-      order: {
-        properties: {
-          updatedAt: 'desc',
-        },
-      },
+      where: { id: id },
     });
     if (!customer) {
       throw new Error('Customer not found');
     }
-    return customer.properties;
+
+    const properties = await this.propertyRepository.find({
+      where: {
+        customers: {
+          id,
+        },
+        status: status ? status : 'active',
+      },
+    });
+
+    return properties;
   }
 
   remove(id: string): Promise<{ affected?: number }> {

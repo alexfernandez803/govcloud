@@ -6,30 +6,30 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/registry/new-york/ui/tooltip";
-import { updateStatus } from "@/api/property";
 import { useParams, useRevalidator } from "react-router-dom";
 import { Status } from "@/lib/types";
+import { updateStatus } from "@/api/customers";
 export function ActionToolbar() {
   const revalidator = useRevalidator();
 
-  const { propertyId } = useParams();
+  const { customerId } = useParams();
 
   async function handleChangeStatus(status: Status) {
-    if (!propertyId) return;
+    if (!customerId) return;
     try {
-      await updateStatus(propertyId, status);
+      await updateStatus(customerId, status);
       revalidator.revalidate();
     } catch (error) {}
   }
 
   return (
-    <div className="flex items-center  space-x-2 w-full">
+    <div className="flex items-center space-x-2 w-full">
       <div className="w-1/2">
-        <p className="text-sm text-muted-foreground pl-6">Property Details</p>
+        <p className="text-sm text-muted-foreground pl-6">Customer Details</p>
       </div>
       <div className="flex items-center gap-2 justify-end w-1/2">
-        <div className="flex items-center p-2">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center p-2 ">
+          <div className="flex items-center gap-2  bg-gray-100 rounded-md">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

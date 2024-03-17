@@ -27,8 +27,10 @@ export class PropertiesService {
     const where = getWhere(filter);
     const order = getOrder(sort);
 
-    const [languages, total] = await this.propertyRepository.findAndCount({
-      where,
+    const [properties, total] = await this.propertyRepository.findAndCount({
+      where: {
+        status: 'active',
+      },
       order: {
         updatedAt: 'desc',
       },
@@ -38,7 +40,7 @@ export class PropertiesService {
 
     return {
       totalItems: total,
-      items: languages,
+      items: properties,
       page,
       size,
     };

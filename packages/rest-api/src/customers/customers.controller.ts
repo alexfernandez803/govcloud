@@ -46,6 +46,11 @@ export class CustomersController {
     return this.customersService.update(id, updateCustomerDto);
   }
 
+  @Patch(':id/status/:status')
+  updateStatus(@Param('id') id: string, @Param('status') status: string) {
+    return this.customersService.updateStatus(id, status);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.customersService.remove(id);
@@ -60,7 +65,7 @@ export class CustomersController {
   }
 
   @Get(':id/properties')
-  getProperties(@Param('id') id: string) {
-    return this.customersService.getProperties(id);
+  getProperties(@Param('id') id: string, @Param('status') status?: string) {
+    return this.customersService.getProperties(id, status);
   }
 }
