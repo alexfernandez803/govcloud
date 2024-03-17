@@ -1,25 +1,17 @@
 import { getCustomerById, getCustomerProperties } from "@/api/customers";
-import { Properties } from "@/components/DataEditor/Context/types";
-import { cn, formatDte } from "@/lib/utils";
-import { ScrollArea } from "@/registry/new-york/ui/scroll-area";
-import { Badge } from "@/registry/new-york/ui/badge";
-import { Button } from "@/registry/new-york/ui/button";
-import { formatDistanceToNow } from "date-fns";
-import { PlusIcon } from "lucide-react";
-import {
-  NavLink,
-  Outlet,
-  useLoaderData,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { formatDte } from "@/lib/utils";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { PropertyList } from "@/components/property/PropertyList";
 import { ActionToolbar } from "@/components/customers/ActionToolbar";
 import { TooltipProvider } from "@/registry/new-york/ui/tooltip";
 
-export async function loader({ params }: { params: any }) {
+export async function loader({ params, request }: { params: any }) {
   const customer = await getCustomerById(params.customerId);
-  const customerProperties = await getCustomerProperties(params.customerId);
+  const status = new URL(request.url).searchParams.get("property_status");
+  const customerProperties = await getCustomerProperties(
+    params.customerId,
+    status
+  );
   return { customer, customerProperties };
 }
 

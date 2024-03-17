@@ -5,7 +5,9 @@ import { Button } from "../ui/button";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Badge } from "@/registry/new-york/ui/badge";
 import { cn, formatDte } from "@/lib/utils";
-
+import { RadioGroup, RadioGroupItem } from "@/registry/new-york/ui/radio-group";
+import { Label } from "@/registry/new-york/ui/label";
+import { useSearchParams } from "react-router-dom";
 export function PropertyList({
   customerId,
   properties,
@@ -29,16 +31,27 @@ export function PropertyList({
             Add Property
           </Button>
         </div>
-        <div className="">
-          {!properties || (properties.length === 0 && <></>)}
-          {properties && properties.length > 0 && (
-            <div className="w-full flex flex-col gap-y-2">
-              {properties.map((property: Properties) => (
-                <PropertyDetails key={property.id} property={property} />
-              ))}
+        <div className="space-y-2">
+          <div className="flex space-y-2 p-2">
+            <div className=" w-1/4"></div>
+            <div className=" w-3/4 ">
+              <PropertyFilter />
             </div>
-          )}
+          </div>
         </div>
+        {!properties ||
+          (properties.length === 0 && (
+            <div className="w-full flex items-center justify-center p-4 text-gray-800">
+              <p>No properties available.</p>
+            </div>
+          ))}
+        {properties && properties.length > 0 && (
+          <div className="w-full flex flex-col gap-y-2">
+            {properties.map((property: Properties) => (
+              <PropertyDetails key={property.id} property={property} />
+            ))}
+          </div>
+        )}
       </ScrollArea>
     </div>
   );
@@ -83,3 +96,37 @@ const PropertyDetails = ({ property }: { property: Properties }) => {
     </NavLink>
   );
 };
+
+function FilterGroup({ value, name }: { value: string; name: string }) {
+  return (
+    <div>
+      <RadioGroupItem value={value} id={value} className="peer sr-only " />
+      <Label
+        htmlFor={value}
+        className="flex flex-col p-1 cursor-pointer items-center justify-between  text-xs rounded-md border-2 border-muted bg-popover  hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+      >
+        {name}
+      </Label>
+    </div>
+  );
+}
+
+function PropertyFilter() {
+  const [_, setSearchParams] = useSearchParams();
+
+  const handleChange = (value: string) => {
+    setSearchParams({ property_status: value });
+  };
+
+  return (
+    <RadioGroup
+      defaultValue="active"
+      className="grid grid-cols-3 gap-1"
+      onValueChange={handleChange}
+    >
+      <FilterGroup value="all" name="All" />
+      <FilterGroup value="active" name="Active" />
+      <FilterGroup value="inactive" name="Inactive" />
+    </RadioGroup>
+  );
+}

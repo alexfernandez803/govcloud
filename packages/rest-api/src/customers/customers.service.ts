@@ -29,6 +29,7 @@ export class CustomersService {
 
   async findAll(
     { page = 0, limit = 100, size = 100, offset = 0 }: Pagination,
+    status?: string,
     sort?: Sorting,
     filter?: Filtering,
   ) {
@@ -38,6 +39,7 @@ export class CustomersService {
     const [languages, total] = await this.customerRepository.findAndCount({
       where: {
         ...where,
+        status: status ? status : 'active',
       },
       order: {
         updatedAt: 'desc',
@@ -124,13 +126,13 @@ export class CustomersService {
     if (!customer) {
       throw new Error('Customer not found');
     }
-
+    const status2 = status ? (status === 'all' ? undefined : status) : 'active';
     const properties = await this.propertyRepository.find({
       where: {
         customers: {
           id,
         },
-        status: status ? status : 'active',
+        ...(status ? { status: status2 } : {}),
       },
     });
 

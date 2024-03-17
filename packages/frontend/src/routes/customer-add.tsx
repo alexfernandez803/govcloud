@@ -62,7 +62,7 @@ export function CustomerForm() {
   }
 
   function onCancel() {
-    navigate(`/customers`);
+    navigate(`/`);
   }
   React.useEffect(() => {
     form.setFocus("firstName");

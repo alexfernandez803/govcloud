@@ -28,12 +28,8 @@ export class PropertiesService {
     const order = getOrder(sort);
 
     const [properties, total] = await this.propertyRepository.findAndCount({
-      where: {
-        status: 'active',
-      },
-      order: {
-        updatedAt: 'desc',
-      },
+      where,
+      order,
       take: limit,
       skip: offset,
     });

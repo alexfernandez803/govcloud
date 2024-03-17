@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -28,9 +29,15 @@ export class CustomersController {
   findAll(
     @PaginationParams() paginationParams?: Pagination,
     @SortingParams(['firstName', 'lastName']) sort?: Sorting,
-    @FilteringParams(['firstName', 'id', 'lastName']) filter?: Filtering,
+    @Param('status') status?: string,
+    filter?: Filtering,
   ) {
-    return this.customersService.findAll(paginationParams, sort, filter);
+    return this.customersService.findAll(
+      paginationParams,
+      status,
+      sort,
+      filter,
+    );
   }
 
   @Get(':id')
@@ -65,7 +72,8 @@ export class CustomersController {
   }
 
   @Get(':id/properties')
-  getProperties(@Param('id') id: string, @Param('status') status?: string) {
+  getProperties(@Param('id') id: string, @Query('status') status?: string) {
+    console.log('id- ', id, 'status', status);
     return this.customersService.getProperties(id, status);
   }
 }
